@@ -1,24 +1,20 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import BlurText from './BlurText';
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+      <header className="header">
+        <BlurText
+          text="Vide: aqui vai ser as músicas que vou te dedicar"
+          delay={150}
+          animateBy="words"
+          direction="top"
+          className="text-4xl font-bold text-pink-400 mb-8"
+        />
       </header>
+      {/* Aqui você pode adicionar o restante da sua página de músicas */}
     </div>
   );
 }

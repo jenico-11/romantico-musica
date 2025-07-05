@@ -1,5 +1,12 @@
+html, body {
+  background: #000 !important;
+  min-height: 100vh;
+}
+
 .App {
   text-align: center;
+  background: #000;
+  min-height: 100vh;
 }
 
 .App-logo {
@@ -14,7 +21,7 @@
 }
 
 .App-header {
-  background-color: #282c34;
+  background: transparent !important;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -35,4 +42,8 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+.header {
+  background: transparent;
 }
