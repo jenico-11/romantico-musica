@@ -1,0 +1,893 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Para Minha Amada - Nossa Playlist Especial</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            min-height: 100vh;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0a0612 0%, #1a0a1e 50%, #2a003f 100%);
+            color: #fff;
+            overflow-x: hidden;
+        }
+
+        /* Animações de fundo */
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.3;
+        }
+
+        .floating-heart {
+            position: absolute;
+            color: #ff6b9d;
+            font-size: 20px;
+            animation: float 6s ease-in-out infinite;
+            opacity: 0.6;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            padding: 60px 20px 40px;
+            position: relative;
+        }
+
+        .header h1 {
+            font-size: 3.5rem;
+            font-weight: bold;
+            background: linear-gradient(45deg, #ff6b9d, #c44569, #ff8fab);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 20px;
+            text-shadow: 0 0 30px rgba(255, 107, 157, 0.5);
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from { text-shadow: 0 0 30px rgba(255, 107, 157, 0.5); }
+            to { text-shadow: 0 0 50px rgba(255, 107, 157, 0.8); }
+        }
+
+        .header p {
+            font-size: 1.3rem;
+            color: #ccc;
+            margin-bottom: 10px;
+        }
+
+        .header .subtitle {
+            font-size: 1.1rem;
+            color: #999;
+            font-style: italic;
+        }
+
+        /* Container principal */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Grid de músicas */
+        .music-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin: 50px 0;
+        }
+
+        .music-card {
+            background: rgba(40, 0, 63, 0.7);
+            border-radius: 20px;
+            padding: 25px;
+            backdrop-filter: blur(10px);
+            border: 1.5px solid rgba(255, 20, 147, 0.25);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .music-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(255, 20, 147, 0.25);
+            border-color: #ff1493;
+        }
+
+        .music-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.5s;
+        }
+
+        .music-card:hover::before {
+            left: 100%;
+        }
+
+        /* Capa do álbum */
+        .album-cover {
+            width: 100%;
+            height: 200px;
+            border-radius: 15px;
+            object-fit: cover;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease;
+        }
+
+        .music-card:hover .album-cover {
+            transform: scale(1.05);
+        }
+
+        /* Informações da música */
+        .song-info h3 {
+            font-size: 1.4rem;
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: #fff;
+        }
+
+        .song-info .artist {
+            font-size: 1.1rem;
+            color: #ff6b9d;
+            margin-bottom: 5px;
+        }
+
+        .song-info .album {
+            font-size: 0.9rem;
+            color: #999;
+            margin-bottom: 15px;
+        }
+
+        /* Dedicatória */
+        .dedication {
+            background: rgba(255, 20, 147, 0.10);
+            border-left: 4px solid #ff1493;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+            font-style: italic;
+            color: #fff;
+            line-height: 1.6;
+        }
+
+        /* Botão de play */
+        .play-btn {
+            background: linear-gradient(45deg, #ff1493, #8e24aa);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 15px;
+        }
+
+        .play-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 25px rgba(255, 20, 147, 0.3);
+        }
+
+        .play-btn.playing {
+            background: linear-gradient(45deg, #28a745, #20c997);
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 40px 20px;
+            background: rgba(20, 0, 30, 0.7);
+            margin-top: 60px;
+        }
+
+        .footer p {
+            color: #b97bbd;
+            font-size: 1rem;
+        }
+
+        /* Responsividade */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2.5rem;
+            }
+            
+            .music-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+        }
+
+        /* Efeitos especiais */
+        .sparkle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: #ff6b9d;
+            border-radius: 50%;
+            animation: sparkle 2s linear infinite;
+        }
+
+        @keyframes sparkle {
+            0% { opacity: 0; transform: scale(0); }
+            50% { opacity: 1; transform: scale(1); }
+            100% { opacity: 0; transform: scale(0); }
+        }
+
+        .blur-anim {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #ff4fa3;
+            margin-bottom: 30px;
+            text-align: center;
+            letter-spacing: 1px;
+        }
+        .blur-anim-word {
+            opacity: 0;
+            filter: blur(10px);
+            transform: translateY(-40px);
+            display: inline-block;
+            transition: opacity 0.6s, filter 0.6s, transform 0.6s;
+            margin-right: 0.4em;
+        }
+        .blur-anim-word.visible {
+            opacity: 1;
+            filter: blur(0px);
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <!-- Animações de fundo -->
+    <div class="bg-animation">
+        <div class="floating-heart" style="top: 10%; left: 10%; animation-delay: 0s;">💕</div>
+        <div class="floating-heart" style="top: 20%; right: 15%; animation-delay: 1s;">💖</div>
+        <div class="floating-heart" style="top: 60%; left: 5%; animation-delay: 2s;">💗</div>
+        <div class="floating-heart" style="top: 80%; right: 10%; animation-delay: 3s;">💓</div>
+        <div class="floating-heart" style="top: 40%; left: 80%; animation-delay: 4s;">🎵</div>
+        <div class="floating-heart" style="top: 70%; left: 70%; animation-delay: 5s;">💝</div>
+    </div>
+
+    <!-- Header -->
+    <header class="header">
+        <div id="blur-anim" class="blur-anim"></div>
+    </header>
+
+    <!-- Container principal -->
+    <div class="container">
+        <!-- Grid de músicas -->
+        <div class="music-grid">
+            <!-- Música 1 -->
+            <div class="music-card">
+                <img src="capa das musicas/lonely.jpg" alt="Perfect" class="album-cover">
+                <div class="song-info">
+                    <h3>Lonely Day</h3>
+                    <div class="artist">System Of A Down</div>
+                    <div class="song-lyrics" style="margin-bottom:18px; color:#fff; font-size:0.98em; opacity:0.8; font-style:italic;">
+                        Such a lonely day shouldn't exist<br>
+                        It's a day that I'll never miss<br>
+                        Such a lonely day, and it's mine<br>
+                        The most loneliest day of my life<br>
+                        And if you go, I wanna go with you<br>
+                        And if you die, I wanna die with you<br>
+                        Take your hand and walk away
+                    </div>
+                    <audio id="audio-1">
+                        <source src="musicas/lonely.webm" type="audio/webm">
+                        Seu navegador não suporta áudio HTML5.
+                    </audio>
+                    <button class="play-btn" onclick="togglePlayReal(this, 'audio-1')">
+                        <span class="play-icon">▶️</span>
+                        Tocar
+                    </button>
+                </div>
+            </div>
+
+            <!-- Música 2 -->
+            <div class="music-card">
+                <img src="capa das musicas/cherry.jpg" alt="Cherry" class="album-cover">
+                <div class="song-info">
+                    <h3>Cherry Waves</h3>
+                    <div class="artist">Deftones</div>
+                    <div class="album"></div>
+                    <div class="song-lyrics" style="margin-bottom:18px; color:#fff; font-size:0.98em; opacity:0.8; font-style:italic;">
+                        you in then<br>
+                        you drown,if like YOU<br>
+                        Should sink down beneath,I'll swin Down<br>
+                        With You?
+                    </div>
+                    <audio id="audio-2">
+                        <source src="musicas/cherry.mp3" type="audio/mp3">
+                        Seu navegador não suporta áudio HTML5.
+                    </audio>
+                    <button class="play-btn" onclick="togglePlayReal(this, 'audio-2')">
+                        <span class="play-icon">▶️</span>
+                        Tocar
+                    </button>
+                </div>
+            </div>
+
+            <!-- Música 3 -->
+            <div class="music-card">
+                <img src="capa das musicas/destiny.jpg" alt="Destiny" class="album-cover">
+                <div class="song-info">
+                    <h3>You Are My Destiny</h3>
+                    <div class="artist">Paul Anka</div>
+                    <div class="song-lyrics" style="margin-bottom:18px; color:#fff; font-size:0.98em; opacity:0.8; font-style:italic;">
+                        You are my destiny<br>
+                        You are what you are to me<br>
+                        You are my happiness<br>
+                        That's what you are<br><br>
+                        You are my sweet caress<br>
+                        You share my loneliness<br>
+                        You are my dream come true<br>
+                        That's what you are
+                    </div>
+                    <audio id="audio-3">
+                        <source src="musicas/destiny.mp3" type="audio/mp3">
+                        Seu navegador não suporta áudio HTML5.
+                    </audio>
+                    <button class="play-btn" onclick="togglePlayReal(this, 'audio-3')">
+                        <span class="play-icon">▶️</span>
+                        Tocar
+                    </button>
+                </div>
+            </div>
+
+            <!-- Música 4 -->
+            <div class="music-card">
+                <img src="capa das musicas/samba.jpg" alt="Samba" class="album-cover">
+                <div class="song-info">
+                    <h3>Amor Dos Deuses</h3>
+                    <div class="artist">Grupo Fundo De Quintal</div>
+                    <div class="song-lyrics" style="margin-bottom:18px; color:#fff; font-size:0.98em; opacity:0.8; font-style:italic;">
+                        Que nada vai nos separar, amor (amor, amor)<br>
+                        Queria ser a pele do seu corpo<br>
+                        Pra estar junto com você a todo tempo<br>
+                        E só assim realizar<br>
+                        O meu desejo em te amar, amor
+                    </div>
+                    <audio id="audio-4">
+                        <source src="musicas/samba.mp3" type="audio/mp3">
+                        Seu navegador não suporta áudio HTML5.
+                    </audio>
+                    <button class="play-btn" onclick="togglePlayReal(this, 'audio-4')">
+                        <span class="play-icon">▶️</span>
+                        Tocar
+                    </button>
+                </div>
+            </div>
+
+            <!-- Música 5 -->
+            <div class="music-card">
+                <img src="capa das musicas/mama.jpg" alt="Mama" class="album-cover">
+                <div class="song-info">
+                    <h3>Me and Your Mama</h3>
+                    <div class="artist">Childish Gambino</div>
+                    <div class="song-lyrics" style="margin-bottom:18px; color:#fff; font-size:0.98em; opacity:0.8; font-style:italic;">
+                        Girl, you really got a hold on me<br>
+                        So this isn't just puppy love<br>
+                        Girl, you really got a hold on me<br>
+                        So this isn't just puppy love<br><br>
+                        Oh, my God, I, I'm in love<br>
+                        Girl, you really got a hold
+                    </div>
+                    <audio id="audio-5">
+                        <source src="musicas/mama.mp3" type="audio/mp3">
+                        Seu navegador não suporta áudio HTML5.
+                    </audio>
+                    <button class="play-btn" onclick="togglePlayReal(this, 'audio-5')">
+                        <span class="play-icon">▶️</span>
+                        Tocar
+                    </button>
+                </div>
+            </div>
+
+            <!-- Música 7 -->
+            <div class="music-card">
+                <img src="capa das musicas/mec.jpg" alt="mec" class="album-cover">
+                <div class="song-info">
+                    <h3>Congratulations</h3>
+                    <div class="artist">Mac Miller</div>
+                    <div class="song-lyrics" style="margin-bottom:18px; color:#fff; font-size:0.98em; opacity:0.8; font-style:italic;">
+                        And you too divine to just be mine<br>
+                        You remind me of the color blue<br><br>
+                        Girl, I'm so in love with you, yeah<br>
+                        Girl, I'm so in love with you
+                    </div>
+                    <audio id="audio-6">
+                        <source src="musicas/mec.mp3" type="audio/mp3">
+                        Seu navegador não suporta áudio HTML5.
+                    </audio>
+                    <button class="play-btn" onclick="togglePlayReal(this, 'audio-6')">
+                        <span class="play-icon">▶️</span>
+                        Tocar
+                    </button>
+                </div>
+            </div>
+
+            <!-- Música 8 -->
+            <div class="music-card">
+                <img src="capa das musicas/big.jpg" alt="big" class="album-cover">
+                <div class="song-info">
+                    <h3>Big Jet Plane</h3>
+                    <div class="artist">Angus E Julia Stone</div>
+                    <div class="song-lyrics" style="margin-bottom:18px; color:#fff; font-size:0.98em; opacity:0.8; font-style:italic;">
+                        Hey hey<br><br>
+                        Gonna hold ya<br>
+                        Gonna kiss ya in my arms<br>
+                        Gonna take ya<br>
+                        Away from harm<br><br>
+                        Gonna hold ya<br>
+                        Gonna kiss ya in my arms<br>
+                        Gonna take ya<br>
+                        Away from harm
+                    </div>
+                    <audio id="audio-7">
+                        <source src="musicas/big.mp3" type="audio/mp3">
+                        Seu navegador não suporta áudio HTML5.
+                    </audio>
+                    <button class="play-btn" onclick="togglePlayReal(this, 'audio-7')">
+                        <span class="play-icon">▶️</span>
+                        Tocar
+                    </button>
+                </div>
+            </div>
+
+            <!-- Música 9 -->
+            <div class="music-card">
+                <img src="capa das musicas/vio.jpg" alt="vio" class="album-cover">
+                <div class="song-info">
+                    <h3>Transform (feat. Charlotte Day Wilson)</h3>
+                    <div class="artist">Daniel Caesar</div>
+                    <div class="song-lyrics" style="margin-bottom:18px; color:#fff; font-size:0.98em; opacity:0.8; font-style:italic;">
+                        You're my violet in the Sun<br>
+                        You're the chosen one<br>
+                        You're my violet in the Sun<br>
+                        You're the chosen one<br><br>
+                        Can't quit you, you're like drugs<br>
+                        Swear I tried to clean up<br>
+                        Too much shared between us<br>
+                        Saved my soul like Jesus<br>
+                        Can't quit you, you're like drugs<br>
+                        Swear I tried to clean up<br>
+                        Too much shared between us<br>
+                        Saved my soul like Jesus
+                    </div>
+                    <audio id="audio-8">
+                        <source src="musicas/vio.mp3" type="audio/mp3">
+                        Seu navegador não suporta áudio HTML5.
+                    </audio>
+                    <button class="play-btn" onclick="togglePlayReal(this, 'audio-8')">
+                        <span class="play-icon">▶️</span>
+                        Tocar
+                    </button>
+                </div>
+            </div>
+
+            <!-- Música 10 -->
+            <div class="music-card">
+                <img src="capa das musicas/cbj.jpg" alt="cbj" class="album-cover">
+                <div class="song-info">
+                    <h3>Uma Criança Com Seu Olhar</h3>
+                    <div class="artist">Charlie Brown Jr</div>
+                    <div class="song-lyrics" style="margin-bottom:18px; color:#fff; font-size:0.98em; opacity:0.8; font-style:italic;">
+                        Eu quero estar amanhã ao seu lado quando você acordar<br>
+                        Eu quero estar amanhã sossegado e continuar a te amar<br>
+                        Eu quero um sonho realizado, uma criança com seu olhar<br>
+                        Eu quero estar sempre ao seu lado, você me traz paz
+                    </div>
+                    <audio id="audio-9">
+                        <source src="musicas/cbj.mp3" type="audio/mp3">
+                        Seu navegador não suporta áudio HTML5.
+                    </audio>
+                    <button class="play-btn" onclick="togglePlayReal(this, 'audio-9')">
+                        <span class="play-icon">▶️</span>
+                        Tocar
+                    </button>
+                </div>
+            </div>
+
+            <!-- Música 11 -->
+            <div class="music-card">
+                <img src="capa das musicas/def.jpg" alt="def" class="album-cover">
+                <div class="song-info">
+                    <h3>Risk</h3>
+                    <div class="artist">Deftones</div>
+                    <div class="song-lyrics" style="margin-bottom:18px; color:#fff; font-size:0.98em; opacity:0.8; font-style:italic;">
+                        I'll find a way<br>
+                        I'll confuse them<br>
+                        But I think I can try<br>
+                        I will save your life<br>
+                        I will save your life<br>
+                        I'll try for you<br><br>
+                        I know what to say to take you<br>
+                        Higher, higher<br>
+                        No one else can take you<br>
+                        Higher<br>
+                        But I'll try
+                    </div>
+                    <audio id="audio-10">
+                        <source src="musicas/def.mp3" type="audio/mp3">
+                        Seu navegador não suporta áudio HTML5.
+                    </audio>
+                    <button class="play-btn" onclick="togglePlayReal(this, 'audio-10')">
+                        <span class="play-icon">▶️</span>
+                        Tocar
+                    </button>
+                </div>
+            </div>
+
+            <!-- Música 12 -->
+            <div class="music-card">
+                <img src="capa das musicas/song.jpg" alt="song" class="album-cover">
+                <div class="song-info">
+                    <h3>Song #3</h3>
+                    <div class="artist">Stone Sour</div>
+                    <div class="song-lyrics" style="margin-bottom:18px; color:#fff; font-size:0.98em; opacity:0.8; font-style:italic;">
+                        If you cried out for more<br>
+                        If you reached out for me<br>
+                        I would run into the storm<br>
+                        Just to keep you here with me<br>
+                        I have gone beyond my years<br>
+                        I've wasted half my life<br>
+                        But I found it all in you<br>
+                        Did I save you?<br>
+                        'Cause I know you saved me too
+                    </div>
+                    <audio id="audio-11">
+                        <source src="musicas/song.mp3" type="audio/mp3">
+                        Seu navegador não suporta áudio HTML5.
+                    </audio>
+                    <button class="play-btn" onclick="togglePlayReal(this, 'audio-11')">
+                        <span class="play-icon">▶️</span>
+                        Tocar
+                    </button>
+                </div>
+            </div>
+
+            <!-- Música 13 -->
+            <div class="music-card">
+                <img src="capa das musicas/dan.jpg" alt="dan" class="album-cover">
+                <div class="song-info">
+                    <h3>Swing Lynn</h3>
+                    <div class="artist">Harmless</div>
+                    <div class="song-lyrics" style="margin-bottom:18px; color:#fff; font-size:0.98em; opacity:0.8; font-style:italic;">
+                        Hey, there little honey won't you groove?<br>
+                        I've been trying all night to dance with you<br>
+                        Hey, there little lonely won't you stay?<br>
+                        I said, I would rather die than feel this pain<br>
+                        You said: I know I feel very much the same<br>
+                        Only fools would rush in
+                    </div>
+                    <audio id="audio-12">
+                        <source src="musicas/dan.mp3" type="audio/mp3">
+                        Seu navegador não suporta áudio HTML5.
+                    </audio>
+                    <button class="play-btn" onclick="togglePlayReal(this, 'audio-12')">
+                        <span class="play-icon">▶️</span>
+                        Tocar
+                    </button>
+                </div>
+            </div>
+
+            <!-- Música 14 -->
+            <div class="music-card">
+                <img src="capa das musicas/fist.jpg" alt="fist" class="album-cover">
+                <div class="song-info">
+                    <h3>The First Time</h3>
+                    <div class="artist">Damiano David</div>
+                    <div class="song-lyrics" style="margin-bottom:18px; color:#fff; font-size:0.98em; opacity:0.8; font-style:italic;">
+                        Before you, I was just a flare in the sky<br>
+                        A kid too afraid to go to play in the light<br>
+                        A colorless painter, a man with no sight<br>
+                        Before you, I was nothing, was nothing, had nothing<br>
+                        I only had<br><br>
+                        A kiss, a touch, a song that made me cry<br>
+                        And all the drugs I've done, they never got me higher<br>
+                        Than the first time we met<br>
+                        There's nothing like the first time we met<br>
+                        I crashed my car, oh, baby, I was flyin'<br>
+                        And I talk to God, He couldn't get me higher<br>
+                        Than the first time we met<br>
+                        There's nothing like the first time, the first time we met
+                    </div>
+                    <audio id="audio-13">
+                        <source src="musicas/fist.mp3" type="audio/mp3">
+                        Seu navegador não suporta áudio HTML5.
+                    </audio>
+                    <button class="play-btn" onclick="togglePlayReal(this, 'audio-13')">
+                        <span class="play-icon">▶️</span>
+                        Tocar
+                    </button>
+                </div>
+            </div>
+
+            <!-- Música 15 -->
+            <div class="music-card">
+                <img src="capa das musicas/cig.jpg" alt="cig" class="album-cover">
+                <div class="song-info">
+                    <h3>Nothing's Gonna Hurt You Baby</h3>
+                    <div class="artist">Cigarettes After Sex</div>
+                    <div class="song-lyrics" style="margin-bottom:18px; color:#fff; font-size:0.98em; opacity:0.8; font-style:italic;">
+                        Nothing's gonna hurt you, baby<br>
+                        As long as you're with me, you'll be just fine<br>
+                        Nothing's gonna hurt you, baby<br>
+                        Nothing's gonna take you from my side
+                    </div>
+                    <audio id="audio-14">
+                        <source src="musicas/cig.mp3" type="audio/mp3">
+                        Seu navegador não suporta áudio HTML5.
+                    </audio>
+                    <button class="play-btn" onclick="togglePlayReal(this, 'audio-14')">
+                        <span class="play-icon">▶️</span>
+                        Tocar
+                    </button>
+                </div>
+            </div>
+
+            <!-- Música 16 -->
+            <div class="music-card">
+                <img src="capa das musicas/ever.jpg" alt="ever" class="album-cover">
+                <div class="song-info">
+                    <h3>Everlong</h3>
+                    <div class="artist">Foo Fighters</div>
+                    <div class="song-lyrics" style="margin-bottom:18px; color:#fff; font-size:0.98em; opacity:0.8; font-style:italic;">
+                        Breathe out, so I can breathe you in<br>
+                        Hold you in<br>
+                        And now I know you've always been<br>
+                        Out of your head, out of my head, I sang
+                    </div>
+                    <audio id="audio-15">
+                        <source src="musicas/ever.mp3" type="audio/mp3">
+                        Seu navegador não suporta áudio HTML5.
+                    </audio>
+                    <button class="play-btn" onclick="togglePlayReal(this, 'audio-15')">
+                        <span class="play-icon">▶️</span>
+                        Tocar
+                    </button>
+                </div>
+            </div>
+
+            <!-- Música 17 -->
+            <div class="music-card">
+                <img src="capa das musicas/else.jpg" alt="else" class="album-cover">
+                <div class="song-info">
+                    <h3>Nothing Else Matters</h3>
+                    <div class="artist">Metallica</div>
+                    <div class="song-lyrics" style="margin-bottom:18px; color:#fff; font-size:0.98em; opacity:0.8; font-style:italic;">
+                        Never opened myself this way<br>
+                        Life is ours, we live it our way<br>
+                        All these words I don't just say<br>
+                        And nothing else matters<br><br>
+                        Trust I seek and I find in you<br>
+                        Every day for us, something new<br>
+                        Open mind for a different view<br>
+                        And nothing else matters
+                    </div>
+                    <audio id="audio-16">
+                        <source src="musicas/else.mp3" type="audio/mp3">
+                        Seu navegador não suporta áudio HTML5.
+                    </audio>
+                    <button class="play-btn" onclick="togglePlayReal(this, 'audio-16')">
+                        <span class="play-icon">▶️</span>
+                        Tocar
+                    </button>
+                </div>
+            </div>
+
+            <!-- Música 18 -->
+            <div class="music-card">
+                <img src="capa das musicas/mar.jpg" alt="mar" class="album-cover">
+                <div class="song-info">
+                    <h3>Disritmia</h3>
+                    <div class="artist">Martinho da Vila</div>
+                    <div class="song-lyrics" style="margin-bottom:18px; color:#fff; font-size:0.98em; opacity:0.8; font-style:italic;">
+                        Eu quero ser exorcizado pela água benta<br>
+                        Desse olhar infindo<br>
+                        Que bom é ser fotografado, mas pelas retinas<br>
+                        Desses olhos lindos<br>
+                        Me deixe hipnotizado pra acabar de vez<br>
+                        Com essa disritmia
+                    </div>
+                    <audio id="audio-17">
+                        <source src="musicas/mar.mp3" type="audio/mp3">
+                        Seu navegador não suporta áudio HTML5.
+                    </audio>
+                    <button class="play-btn" onclick="togglePlayReal(this, 'audio-17')">
+                        <span class="play-icon">▶️</span>
+                        Tocar
+                    </button>
+                </div>
+            </div>
+
+            <!-- Música 19 -->
+            <div class="music-card">
+                <img src="capa das musicas/some.jpg" alt="some" class="album-cover">
+                <div class="song-info">
+                    <h3>Something About You</h3>
+                    <div class="artist">Eyedress</div>
+                    <div class="song-lyrics" style="margin-bottom:18px; color:#fff; font-size:0.98em; opacity:0.8; font-style:italic;">
+                        She looks just like a dream<br>
+                        The prettiest girl I've ever seen<br>
+                        From the cover of a magazine<br><br>
+                        In the car, cruising around with you<br>
+                        And my baby, you know that I got you<br>
+                        Hit the road, I'm taking off with you<br>
+                        Not in a hurry, there's something about you, oh
+                    </div>
+                    <audio id="audio-18">
+                        <source src="musicas/some.mp3" type="audio/mp3">
+                        Seu navegador não suporta áudio HTML5.
+                    </audio>
+                    <button class="play-btn" onclick="togglePlayReal(this, 'audio-18')">
+                        <span class="play-icon">▶️</span>
+                        Tocar
+                    </button>
+                </div>
+            </div>
+
+            <!-- Música 20 -->
+            <div class="music-card">
+                <img src="capa das musicas/nov.jpg" alt="nov" class="album-cover">
+                <div class="song-info">
+                    <h3>November Rain</h3>
+                    <div class="artist">Guns N' Roses</div>
+                    <div class="song-lyrics" style="margin-bottom:18px; color:#fff; font-size:0.98em; opacity:0.8; font-style:italic;">
+                        VOCE È LITERALMENTE O SOLO DESSA MUSICAA
+                    </div>
+                    <audio id="audio-19">
+                        <source src="musicas/nov.mp3" type="audio/mp3">
+                        Seu navegador não suporta áudio HTML5.
+                    </audio>
+                    <button class="play-btn" onclick="togglePlayReal(this, 'audio-19')">
+                        <span class="play-icon">▶️</span>
+                        Tocar
+                    </button>
+                </div>
+            </div>
+
+            <!-- Música 21 -->
+            <div class="music-card">
+                <img src="capa das musicas/cali.jpg" alt="cali" class="album-cover">
+                <div class="song-info">
+                    <h3>Hotel California</h3>
+                    <div class="artist">Eagles</div>
+                    <div class="song-lyrics" style="margin-bottom:18px; color:#fff; font-size:0.98em; opacity:0.8; font-style:italic;">
+                        There she stood, in the doorway<br>
+                        I heard the Mission bell<br>
+                        And I was thinking to myself<br>
+                        This could be heaven or this could be hell<br>
+                        Then she lit up a candle and she showed me the way<br>
+                        There were voices down the corridor<br>
+                        I thought I heard them say<br><br>
+                        Welcome to the Hotel California<br>
+                        Such a lovely place
+                    </div>
+                    <audio id="audio-20">
+                        <source src="musicas/cali.mp3" type="audio/mp3">
+                        Seu navegador não suporta áudio HTML5.
+                    </audio>
+                    <button class="play-btn" onclick="togglePlayReal(this, 'audio-20')">
+                        <span class="play-icon">▶️</span>
+                        Tocar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Função para alternar play/pause
+        function togglePlay(button) {
+            const playIcon = button.querySelector('.play-icon');
+            const isPlaying = button.classList.contains('playing');
+            
+            if (isPlaying) {
+                button.classList.remove('playing');
+                playIcon.textContent = '▶️';
+                button.innerHTML = '<span class="play-icon">▶️</span> Tocar';
+            } else {
+                // Para todos os outros botões
+                document.querySelectorAll('.play-btn').forEach(btn => {
+                    btn.classList.remove('playing');
+                    btn.innerHTML = '<span class="play-icon">▶️</span> Tocar';
+                });
+                
+                // Ativa o botão clicado
+                button.classList.add('playing');
+                button.innerHTML = '<span class="play-icon">⏸️</span> Pausar';
+            }
+        }
+
+        // Criar efeitos de brilho aleatórios
+        function createSparkle() {
+            const sparkle = document.createElement('div');
+            sparkle.className = 'sparkle';
+            sparkle.style.left = Math.random() * 100 + '%';
+            sparkle.style.top = Math.random() * 100 + '%';
+            sparkle.style.animationDelay = Math.random() * 2 + 's';
+            
+            document.body.appendChild(sparkle);
+            
+            setTimeout(() => {
+                sparkle.remove();
+            }, 2000);
+        }
+
+        // Criar brilhos a cada 3 segundos
+        setInterval(createSparkle, 3000);
+
+        // Efeito BlurText animado no topo
+        const blurAnim = document.getElementById('blur-anim');
+        const blurTextAnim = "Vide: aqui vai ser as músicas que vou te dedicar";
+        const words = blurTextAnim.split(' ');
+        blurAnim.innerHTML = words.map(word => `<span class='blur-anim-word'>${word}</span>`).join(' ');
+        const wordEls = blurAnim.querySelectorAll('.blur-anim-word');
+        wordEls.forEach((el, i) => {
+            setTimeout(() => {
+                el.classList.add('visible');
+            }, 250 * i);
+        });
+
+        // Função para tocar/pausar música real
+        function togglePlayReal(button, audioId) {
+            const audio = document.getElementById(audioId);
+            const playIcon = button.querySelector('.play-icon');
+            if (!audio) return;
+            if (audio.paused) {
+                // Pausa todos os outros áudios
+                document.querySelectorAll('audio').forEach(a => { if(a !== audio) a.pause(); });
+                audio.play();
+                button.classList.add('playing');
+                playIcon.textContent = '⏸️';
+            } else {
+                audio.pause();
+                button.classList.remove('playing');
+                playIcon.textContent = '▶️';
+            }
+            // Atualiza botões de outros players
+            document.querySelectorAll('.play-btn').forEach(btn => {
+                if(btn !== button) {
+                    btn.classList.remove('playing');
+                    if(btn.querySelector('.play-icon')) btn.querySelector('.play-icon').textContent = '▶️';
+                }
+            });
+        }
+
+
+    </script>
+</body>
+</html> 

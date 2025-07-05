@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cartinha para Vide ❤️</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Playfair Display', Georgia, serif;
+      background: #000;
+      color: #fff;
+      line-height: 1.6;
+      min-height: 100vh;
+      padding: 20px;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    /* Partículas do ReactBits */
+    .particles {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .particle {
+      position: absolute;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 50%;
+      animation: float-particle 20s infinite linear;
+    }
+
+    .particle:nth-child(1) {
+      width: 4px;
+      height: 4px;
+      left: 10%;
+      animation-delay: 0s;
+      animation-duration: 15s;
+    }
+
+    .particle:nth-child(2) {
+      width: 6px;
+      height: 6px;
+      left: 20%;
+      animation-delay: 2s;
+      animation-duration: 18s;
+    }
+
+    .particle:nth-child(3) {
+      width: 3px;
+      height: 3px;
+      left: 30%;
+      animation-delay: 4s;
+      animation-duration: 12s;
+    }
+
+    .particle:nth-child(4) {
+      width: 5px;
+      height: 5px;
+      left: 40%;
+      animation-delay: 6s;
+      animation-duration: 16s;
+    }
+
+    .particle:nth-child(5) {
+      width: 4px;
+      height: 4px;
+      left: 50%;
+      animation-delay: 8s;
+      animation-duration: 14s;
+    }
+
+    .particle:nth-child(6) {
+      width: 7px;
+      height: 7px;
+      left: 60%;
+      animation-delay: 10s;
+      animation-duration: 20s;
+    }
+
+    .particle:nth-child(7) {
+      width: 3px;
+      height: 3px;
+      left: 70%;
+      animation-delay: 12s;
+      animation-duration: 13s;
+    }
+
+    .particle:nth-child(8) {
+      width: 5px;
+      height: 5px;
+      left: 80%;
+      animation-delay: 14s;
+      animation-duration: 17s;
+    }
+
+    .particle:nth-child(9) {
+      width: 4px;
+      height: 4px;
+      left: 90%;
+      animation-delay: 16s;
+      animation-duration: 15s;
+    }
+
+    .particle:nth-child(10) {
+      width: 6px;
+      height: 6px;
+      left: 95%;
+      animation-delay: 18s;
+      animation-duration: 19s;
+    }
+
+    @keyframes float-particle {
+      0% {
+        transform: translateY(100vh) rotate(0deg);
+        opacity: 0;
+      }
+      10% {
+        opacity: 1;
+      }
+      90% {
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-100px) rotate(360deg);
+        opacity: 0;
+      }
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    .letter-container {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 20px;
+      box-shadow: 
+        0 20px 60px rgba(0, 0, 0, 0.3),
+        0 0 0 1px rgba(255, 255, 255, 0.1);
+      padding: 80px 60px;
+      margin: 40px 0;
+      position: relative;
+      backdrop-filter: blur(20px);
+      transform: rotate(-0.5deg);
+      transition: all 0.4s ease;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      min-height: 120vh;
+      overflow: visible;
+    }
+
+    .letter-container:hover {
+      transform: rotate(0deg) scale(1.02);
+      box-shadow: 
+        0 30px 80px rgba(0, 0, 0, 0.4),
+        0 0 0 1px rgba(255, 255, 255, 0.3);
+    }
+
+    .letter-container::before {
+      content: '';
+      position: absolute;
+      top: -2px;
+      left: -2px;
+      right: -2px;
+      bottom: -2px;
+      background: linear-gradient(45deg, #ff6b6b, #feca57, #48dbfb, #ff9ff3, #a8edea);
+      border-radius: 22px;
+      z-index: -1;
+      opacity: 0.3;
+      animation: borderGlow 4s ease-in-out infinite alternate;
+    }
+
+    @keyframes borderGlow {
+      0% { opacity: 0.2; }
+      100% { opacity: 0.5; }
+    }
+
+    .letter-header {
+      text-align: center;
+      margin-bottom: 60px;
+      position: relative;
+    }
+
+    .letter-header::after {
+      content: '';
+      position: absolute;
+      bottom: -20px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 120px;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, #feca57, transparent);
+    }
+
+    .letter-title {
+      font-size: 3rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, #feca57, #ff9ff3);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 15px;
+      letter-spacing: 2px;
+    }
+
+    .letter-subtitle {
+      font-size: 1.3rem;
+      color: rgba(255, 255, 255, 0.7);
+      font-style: italic;
+      font-weight: 300;
+    }
+
+    .letter-content {
+      font-size: 1.2rem;
+      line-height: 2;
+      text-align: justify;
+      color: #fff;
+      position: relative;
+      margin-bottom: 40px;
+    }
+
+    .scroll-reveal {
+      margin: 0;
+      padding: 0;
+    }
+
+    .scroll-reveal-text {
+      font-size: 1.2rem;
+      line-height: 2;
+      font-weight: 400;
+      text-align: justify;
+      color: #fff;
+    }
+
+    .word {
+      display: inline-block;
+      opacity: 0;
+      filter: blur(2px);
+      transform: rotate(2deg) translateY(8px);
+      transform-origin: 0% 50%;
+      will-change: transform, opacity, filter;
+    }
+
+    .word + .word {
+      margin-left: 0.02em;
+    }
+
+    .heart-decoration {
+      position: absolute;
+      font-size: 2rem;
+      color: #ff6b6b;
+      animation: float 4s ease-in-out infinite;
+      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+    }
+
+    .heart-1 { top: 30px; left: 30px; animation-delay: 0s; }
+    .heart-2 { top: 50px; right: 40px; animation-delay: 1s; }
+    .heart-3 { bottom: 50px; left: 40px; animation-delay: 2s; }
+    .heart-4 { bottom: 30px; right: 30px; animation-delay: 0.5s; }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(-10px) rotate(3deg); }
+    }
+
+    .signature {
+      text-align: right;
+      margin-top: 60px;
+      padding-top: 30px;
+      border-top: 1px solid rgba(254, 202, 87, 0.3);
+      font-style: italic;
+      font-size: 1.4rem;
+      color: #feca57;
+      font-weight: 600;
+    }
+
+    .signature .highlight {
+      background: linear-gradient(135deg, #feca57, #ff9ff3);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      font-weight: 700;
+    }
+
+    .scroll-indicator {
+      position: fixed;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 1000;
+      color: rgba(255, 255, 255, 0.9);
+      font-size: 14px;
+      animation: bounce 2s infinite;
+      background: rgba(0, 0, 0, 0.5);
+      padding: 10px 20px;
+      border-radius: 20px;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    @keyframes bounce {
+      0%, 20%, 50%, 80%, 100% {
+        transform: translateX(-50%) translateY(0);
+      }
+      40% {
+        transform: translateX(-50%) translateY(-8px);
+      }
+      60% {
+        transform: translateX(-50%) translateY(-4px);
+      }
+    }
+
+    @media (max-width: 768px) {
+      body {
+        padding: 15px;
+      }
+      
+      .container {
+        max-width: 100%;
+      }
+      
+      .letter-container {
+        padding: 40px 30px;
+        margin: 20px 0;
+        min-height: 100vh;
+      }
+      
+      .letter-title {
+        font-size: 2.2rem;
+      }
+      
+      .scroll-reveal-text {
+        font-size: 1.1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Partículas do ReactBits -->
+  <div class="particles">
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+  </div>
+
+  <div class="container">
+    <div class="letter-container">
+      <div class="heart-decoration heart-1">💕</div>
+      <div class="heart-decoration heart-2">💖</div>
+      <div class="heart-decoration heart-3">💝</div>
+      <div class="heart-decoration heart-4">💗</div>
+      
+      <div class="letter-header">
+        <h1 class="letter-title">Cartinha para Vide</h1>
+        <p class="letter-subtitle">Com todo meu amor e carinho ❤️</p>
+      </div>
+
+      <div class="letter-content">
+        <div class="scroll-reveal" id="mainScrollReveal">
+          <p class="scroll-reveal-text" id="scrollRevealText">
+            <!-- O texto será inserido via JavaScript -->
+          </p>
+        </div>
+      </div>
+
+      <div class="signature">
+        <p>Com todo meu amor,<br>
+        <span class="highlight">Eu te adoro, Vide</span> 💕</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Registrar o plugin ScrollTrigger
+    gsap.registerPlugin(ScrollTrigger);
+
+    // Texto da cartinha
+    const letterText = "Se prepara, porque lá vem textão (sim, aquele famoso que a gente diz que não vai mandar, mas acaba mandando porque o coração não cabe no peito e transborda pelos dedos).\n\nRespira fundo aí viu kkkkkkkk\n\nPrimeiro de tudo: eu tô apaixonado por você e isso ja nao é segredo.\n\nDaqueles amores que não dá pra fingir, nem esconder, nem colocar no modo avião. Eu gosto de você com a mesma intensidade que o coração bate quando você entra na chamada. Com o mesmo sorriso bobo que eu dou quando você me chama de doido, de besta, ou quando você ri das coisas mais idiotas que eu falo. E olha que eu falo muita besteira, né? Mas você ainda assim fica. E isso é... especial demais.\n\nSabe, é louco pensar que a gente se encontrou nesse mundão tão cheio de gente, e mesmo com quilômetros no meio, você conseguiu se tornar a pessoa que eu mais quero por perto. Você virou minha calmaria no caos, meu motivo pra rir sem motivo, meu pensamento bom no fim de um dia ruim.\n\nE agora… agora a gente vai se ver. DE VERDADE E ISSO È DO CARAIIII.\n\nVocê tem ideia do que isso significa? Porque eu tô surtando aqui desde que marcamos esse dia.\n\nTô ensaiando abraço, tô escolhendo roupa, tô pensando até se levo uma flor.\n\nEu fico imaginando a cena: você chegando, eu te vendo de verdade, sem delay. Só você, real e linda, ali na minha frente.\n\nAcho que vou travar. Ou rir. Ou te abraçar tão forte que você vai ter que pedir ar.\n\nE depois disso?\n\nDepois disso, vem o melhor. Porque não é só sobre o encontro.\n\nÉ sobre o futuro.\n\nÉ sobre tudo que ainda vamos viver. Os rolês simples, os domingos preguiçosos, as viagens (mesmo que seja só até a esquina), as músicas que vamos compartilhar, os filmes que vamos dormir no meio, os planos malucos, as conversas de madrugada, as brigas bobas (porque vai ter, mas a gente vai resolver rindo), os apelidos novos, os momentos que vão virar lembranças boas.\n\nE eu não quero viver nada disso com mais ninguém.\n\nSó com você, Vide.\n\nVocê me faz querer ser melhor. Não no sentido clichê, mas real mesmo. Você me faz querer cuidar, ouvir, entender, construir. Me faz querer ficar, mesmo quando a vida bagunça tudo.\n\nE por isso  por tudo isso aqui vai a minha promessa, que eu vou cumprir com o coração inteiro:\n\nEu prometo estar com você.\n\nNos dias bons, pra rir até doer a barriga.\n\nNos dias ruins, pra te lembrar que não tá sozinha.\n\nNos momentos de dúvida, pra segurar sua mão e dizer que vai passar.\n\nEu prometo te escolher todos os dias, mesmo nos dias em que parecer difícil.\n\nE prometo também nunca deixar de te fazer rir  porque seu riso, Vide… é o som mais bonito que eu já ouvi.";
+
+    // Função para criar o ScrollReveal (PERFEITA para carta maior)
+    function createScrollReveal(element, text, options = {}) {
+      const {
+        enableBlur = true,
+        baseOpacity = 0,
+        baseRotation = 2,
+        blurStrength = 2,
+        stagger = 0.001
+      } = options;
+
+      // Dividir o texto em palavras
+      const words = text.split(/(\s+)/).map((word, index) => {
+        if (word.match(/^\s+$/)) return word;
+        return `<span class="word" data-index="${index}">${word}</span>`;
+      });
+
+      element.innerHTML = words.join('');
+
+      const wordElements = element.querySelectorAll('.word');
+
+      // Animação das palavras (PERFEITA para carta maior)
+      gsap.fromTo(
+        wordElements,
+        { 
+          opacity: baseOpacity, 
+          filter: `blur(${blurStrength}px)`,
+          transform: `rotate(${baseRotation}deg) translateY(8px)`,
+          willChange: 'opacity, transform, filter'
+        },
+        {
+          ease: 'power2.out',
+          opacity: 1,
+          filter: 'blur(0px)',
+          transform: 'rotate(0deg) translateY(0px)',
+          stagger: stagger,
+          duration: 0.15,
+          scrollTrigger: {
+            trigger: element,
+            start: 'top bottom-=300px',
+            end: 'bottom top+=300px',
+            scrub: 0.8,
+            onUpdate: (self) => {
+              // Garantir que todas as palavras sejam visíveis no final
+              if (self.progress >= 0.7) {
+                wordElements.forEach(word => {
+                  word.style.opacity = '1';
+                  word.style.filter = 'blur(0px)';
+                  word.style.transform = 'rotate(0deg) translateY(0px)';
+                });
+              }
+            }
+          },
+        }
+      );
+    }
+
+    // Função para rolar até a cartinha
+    function scrollToLetter() {
+      const letterContainer = document.querySelector('.letter-container');
+      letterContainer.scrollIntoView({ 
+        behavior: 'smooth',
+        block: 'start'
+      });
+    }
+
+    // Inicializar quando a página carregar
+    window.addEventListener('load', function() {
+      const scrollRevealText = document.getElementById('scrollRevealText');
+      
+      if (scrollRevealText) {
+        createScrollReveal(scrollRevealText, letterText, {
+          enableBlur: true,
+          baseOpacity: 0,
+          baseRotation: 2,
+          blurStrength: 2,
+          stagger: 0.001
+        });
+      }
+    });
+
+    // Esconder indicador de scroll após o primeiro scroll
+    let hasScrolled = false;
+    window.addEventListener('scroll', function() {
+      if (!hasScrolled && window.pageYOffset > 50) {
+        document.querySelector('.scroll-indicator').style.opacity = '0';
+        hasScrolled = true;
+      }
+    });
+  </script>
+</body>
+</html> 

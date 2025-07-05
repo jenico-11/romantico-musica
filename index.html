@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Para Minha Namorada</title>
+  <link rel="stylesheet" href="style.css">
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyCIJnEcjW74fc6kRGiAygvzNoZHeE3PGoo",
+      authDomain: "passeios-ae579.firebaseapp.com",
+      projectId: "passeios-ae579",
+      storageBucket: "passeios-ae579.firebasestorage.app",
+      messagingSenderId: "5243715214",
+      appId: "1:5243715214:web:9981fae6529eb0435213df",
+      measurementId: "G-3GEM0MJ61Q"
+    };
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+  </script>
+  <style>
+    .split-parent {
+      display: flex;
+      justify-content: center;
+      font-size: 2.2em;
+      font-weight: bold;
+      color: #ff6b9d;
+      margin-top: 40px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+      text-align: center;
+    }
+    .split-word {
+      opacity: 0;
+      filter: blur(10px);
+      transform: translateY(40px) scale(1.2);
+      display: inline-block;
+      transition: opacity 0.5s, filter 0.5s, transform 0.5s;
+      will-change: opacity, filter, transform;
+      margin-right: 0.3em;
+      white-space: pre;
+    }
+    .split-word.visible {
+      opacity: 1;
+      filter: blur(0px);
+      transform: translateY(0) scale(1);
+    }
+    .animated-in {
+      opacity: 1 !important;
+      transform: translateX(0) scale(1) !important;
+      filter: none !important;
+      transition: opacity 0.8s cubic-bezier(.68,-0.55,.27,1.55), transform 0.8s cubic-bezier(.68,-0.55,.27,1.55), filter 0.8s;
+    }
+    .animated-content {
+      opacity: 0.2;
+      transform: translateX(150px) scale(1.1);
+      filter: blur(2px);
+      will-change: opacity, transform, filter;
+    }
+  </style>
+</head>
+<body class="home">
+  <div class="love-message" id="splitTextTarget">Te adoro minha gatora</div>
+  <div class="heart-container">
+    <div class="heart" id="mainHeart"></div>
+  </div>
+  <canvas id="heartsCanvas"></canvas>
+  <div class="places-section">
+    <h2>Lugares para irmos juntos</h2>
+    <ul id="placesList"></ul>
+  </div>
+  <button id="addPlaceFab" class="fab-btn">+</button>
+  <button id="musicBtn" class="music-fab">🎵</button>
+  <div id="placeModal" class="modal-bg" style="display:none;">
+    <div class="modal">
+      <h3>Adicionar lugar</h3>
+      <input type="text" id="modalPlaceInput" placeholder="Digite o nome do lugar" />
+      <div class="modal-actions">
+        <button id="modalAddBtn" class="add-place-btn">Adicionar</button>
+        <button id="modalCancelBtn" class="cancel-btn">Cancelar</button>
+      </div>
+    </div>
+  </div>
+  <script>
+    document.getElementById('mainHeart').onclick = function() {
+      window.location.href = 'love.html';
+    };
+    
+    document.getElementById('addPlaceFab').onclick = function() {
+      document.getElementById('placeModal').style.display = 'flex';
+    };
+
+    document.getElementById('musicBtn').onclick = function() {
+      window.location.href = 'romantico-musica.html';
+    };
+
+    // Efeito SplitText animado na frase especial (palavra por palavra)
+    const splitTarget = document.getElementById('splitTextTarget');
+    if (splitTarget) {
+      const text = splitTarget.textContent;
+      splitTarget.textContent = '';
+      splitTarget.classList.add('split-parent');
+      text.split(' ').forEach((word, i) => {
+        const span = document.createElement('span');
+        span.textContent = word + ' ';
+        span.className = 'split-word';
+        splitTarget.appendChild(span);
+        setTimeout(() => {
+          span.classList.add('visible');
+        }, 200 * i);
+      });
+    }
+
+    // Efeito animado sincronizado nos botões + e música
+    document.querySelectorAll('.fab-btn, .music-fab').forEach(btn => {
+      btn.classList.add('animated-content');
+    });
+    setTimeout(() => {
+      document.querySelectorAll('.fab-btn, .music-fab').forEach(btn => {
+        btn.classList.add('animated-in');
+      });
+    }, 300);
+  </script>
+  <script src="script.js"></script>
+</body>
+</html> 
