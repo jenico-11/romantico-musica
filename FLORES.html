@@ -308,6 +308,7 @@
         </div>
       </div>
     </div>
+
     <audio id="backgroundMusic" loop>
       <source src="Download (online-audio-converter.com).mp3" type="audio/mpeg">
       Seu navegador não suporta a reprodução de áudio.
@@ -325,93 +326,28 @@
         const playPromise = music.play();
         if (playPromise !== undefined) {
           playPromise.then(_ => {
-            // Reprodução e animações iniciadas com sucesso
-            instruction.style.display = 'none'; // Esconde a instrução
+            instruction.style.display = 'none';
             body.classList.remove('paused-flower-animation');
             body.classList.add('started-flower-animation');
           }).catch(error => {
             console.error("Audio playback prevented:", error);
-            // Se for bloqueado, a instrução permanece visível
           });
         }
       }
 
-      // Escuta pelo primeiro toque/clique em qualquer lugar do documento
       document.addEventListener('pointerdown', function firstInteractionHandler() {
         initiateExperience();
-        // Remove este ouvinte após a primeira interação
         document.removeEventListener('pointerdown', firstInteractionHandler);
       });
 
-      // Fallback para clique (se pointerdown não for o que dispara)
       document.addEventListener('click', function clickFallbackHandler() {
-        if (music.paused) { // Só tenta se a música ainda não estiver tocando
+        if (music.paused) {
           initiateExperience();
           document.removeEventListener('click', clickFallbackHandler);
         }
       });
     </script>
     <script src="main.js"></script>
-    <button id="showCartinhaBtn" class="cartinha-fab" title="Ler cartinha"><span style="font-size:1.5em;">💌</span></button>
 
-    <style>
-
-      
-      .cartinha-fab {
-        position: fixed;
-        bottom: 24px;
-        left: 24px;
-        width: 64px;
-        height: 64px;
-        border-radius: 50%;
-        background: linear-gradient(45deg, #667eea, #764ba2);
-        color: #fff;
-        border: none;
-        box-shadow: 0 4px 20px rgba(102,126,234,0.3);
-        cursor: pointer;
-        z-index: 200;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 2em;
-        transition: background 0.2s, box-shadow 0.2s, transform 0.2s;
-        animation: cartinha-pulse 1.5s infinite alternate;
-      }
-      .cartinha-fab:hover {
-        background: linear-gradient(45deg, #7c8ff0, #8a5bb8);
-        transform: scale(1.08);
-        box-shadow: 0 8px 32px rgba(102,126,234,0.5);
-      }
-      @keyframes cartinha-pulse {
-        from { box-shadow: 0 4px 20px rgba(102,126,234,0.3); }
-        to { box-shadow: 0 0 32px 8px #667eea44; }
-      }
-      
-
-
-
-              @media (max-width: 600px) {
-
-        .cartinha-fab {
-          width: 52px;
-          height: 52px;
-          font-size: 1.3em;
-          bottom: 14px;
-          left: 14px;
-        }
-
-      }
-    </style>
-    <script>
-
-
-      
-      document.getElementById('showCartinhaBtn').onclick = function() {
-        window.location.href = 'musica.html';
-      };
-      
-
-
-    </script>
   </body>
 </html>
